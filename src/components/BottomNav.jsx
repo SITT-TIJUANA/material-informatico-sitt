@@ -29,7 +29,7 @@ export default function BottomNav() {
     <>
       <nav className="bottom-nav-mobile" style={{
         position: 'fixed', bottom: 0, left: 0, right: 0, background: '#fff',
-        borderTop: '1px solid var(--border)', display: 'flex', alignItems: 'center',
+        borderTop: '1px solid var(--border)', alignItems: 'center',
         padding: '6px 6px calc(env(safe-area-inset-bottom, 0px) + 6px)', zIndex: 40,
         boxShadow: '0 -6px 20px rgba(10,60,55,0.06)'
       }}>
