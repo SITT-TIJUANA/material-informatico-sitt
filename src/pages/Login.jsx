@@ -28,7 +28,6 @@ export default function Login() {
       minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
       padding: 20, position: 'relative', overflow: 'hidden', background: 'var(--bg)'
     }}>
-      {/* Patrón decorativo de fondo, sutil, detrás de la tarjeta */}
       <svg width="100%" height="100%" style={{ position: 'absolute', inset: 0, opacity: 0.5 }} preserveAspectRatio="none">
         <defs>
           <pattern id="circuito" width="90" height="90" patternUnits="userSpaceOnUse">
@@ -45,9 +44,8 @@ export default function Login() {
         position: 'relative', zIndex: 1, width: '100%', maxWidth: 460,
         background: '#fff', borderRadius: 22, overflow: 'hidden', boxShadow: 'var(--shadow-lg)'
       }}>
-        {/* Portada institucional — reemplázala subiendo tu imagen como frontend/public/login-bg.jpg */}
         <div style={{
-          height: 176, backgroundImage: "url('/login-bg.jpg')", backgroundSize: 'cover',
+          height: 176, backgroundImage: `url('${import.meta.env.BASE_URL}login-bg.jpg')`, backgroundSize: 'cover',
           backgroundPosition: 'center', backgroundColor: 'var(--ink)'
         }} />
 
