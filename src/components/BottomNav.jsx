@@ -57,11 +57,17 @@ export default function BottomNav() {
           </button>
         </div>
 
+        {esAdmin && (
+          <NavLink to="/admin/bodegas" style={tabStyle}>
+            {I.bodegas({ width: 21, height: 21 })}
+            Bodega
+          </NavLink>
+        )}
+
         <button onClick={() => setAbierto(true)} style={{ ...tabStyle({ isActive: false }), background: 'none', border: 'none' }}>
           {I.mas({ width: 21, height: 21 })}
           Más
         </button>
-        <div style={tabStyle({ isActive: false })} onClick={() => setAbierto(true)} />
       </nav>
 
       <Modal abierto={abierto} onCerrar={() => setAbierto(false)} ancho={380}>
@@ -79,7 +85,6 @@ export default function BottomNav() {
 
           {esAdmin && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 16 }}>
-              <OpcionMenu icono={I.bodegas} label="Bodegas" onClick={() => { setAbierto(false); navigate('/admin/bodegas'); }} />
               <OpcionMenu icono={I.usuarios} label="Usuarios" onClick={() => { setAbierto(false); navigate('/admin/usuarios'); }} />
               <OpcionMenu icono={I.alertas} label="Alertas" onClick={() => { setAbierto(false); navigate('/admin/alertas'); }} />
             </div>
