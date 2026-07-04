@@ -105,3 +105,27 @@ button, input, select, textarea { font-family: inherit; }
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes scaleIn { from { opacity: 0; transform: scale(0.96) translateY(8px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+/* ---- Responsivo: app práctica en celular ---- */
+.app-main { padding: 28px 36px; }
+.bottom-nav-mobile { display: none; }
+
+@media (max-width: 860px) {
+  .sidebar-desktop { display: none; }
+  .bottom-nav-mobile { display: flex !important; }
+  .app-main { padding: 16px 14px 96px; max-width: 100%; }
+  h1 { font-size: 24px !important; }
+  .card { padding: 16px; }
+}
+
+/* Que los inputs no hagan zoom automático en iOS (mínimo 16px) */
+@media (max-width: 860px) {
+  input, select, textarea { font-size: 16px !important; }
+}
+
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.g-charts { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; }
+@media (max-width: 860px) {
+  .g2, .g3, .g-charts { grid-template-columns: 1fr; }
+}

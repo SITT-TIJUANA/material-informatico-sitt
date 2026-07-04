@@ -81,7 +81,7 @@ export default function MaterialForm() {
       <h1 style={{ fontSize: 24, marginBottom: 20 }}>{editando ? 'Editar material' : 'Dar de alta un material'}</h1>
 
       <form onSubmit={manejarSubmit}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+        <div className="g2" style={{ marginBottom: 16 }}>
           <div className="card">
             <h3 style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Foto del material</h3>
             <div style={{
@@ -120,7 +120,7 @@ export default function MaterialForm() {
 
         <div className="card" style={{ marginBottom: 16 }}>
           <h3 style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Datos del resguardo</h3>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14 }}>
+          <div className="g3">
             <Campo label="Artículo *" valor={datos.articulo} onChange={(v) => actualizar('articulo', v)} />
             <Campo label="Número" valor={datos.numero} onChange={(v) => actualizar('numero', v)} />
             <Campo label="Marca" valor={datos.marca} onChange={(v) => actualizar('marca', v)} />

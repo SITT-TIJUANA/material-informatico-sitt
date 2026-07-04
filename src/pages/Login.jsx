@@ -26,54 +26,34 @@ export default function Login() {
   return (
     <div style={{
       minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      padding: 20, position: 'relative', overflow: 'hidden',
-      backgroundImage: "linear-gradient(160deg, rgba(6,32,30,0.88), rgba(10,147,132,0.75)), url('/login-bg.jpg')",
-      backgroundSize: 'cover', backgroundPosition: 'center', backgroundColor: '#0A2E2A'
+      padding: 20, position: 'relative', overflow: 'hidden', background: 'var(--bg)'
     }}>
-      {/* Patrón decorativo tipo circuito, siempre visible aunque no haya foto de fondo */}
-      <svg width="100%" height="100%" style={{ position: 'absolute', inset: 0, opacity: 0.14 }} preserveAspectRatio="none">
+      {/* Patrón decorativo de fondo, sutil, detrás de la tarjeta */}
+      <svg width="100%" height="100%" style={{ position: 'absolute', inset: 0, opacity: 0.5 }} preserveAspectRatio="none">
         <defs>
           <pattern id="circuito" width="90" height="90" patternUnits="userSpaceOnUse">
-            <circle cx="10" cy="10" r="2.5" fill="#fff" />
-            <path d="M10 10 L10 45 L45 45 L45 80 L80 80" stroke="#fff" strokeWidth="1.2" fill="none" />
-            <circle cx="45" cy="45" r="2.5" fill="#fff" />
-            <circle cx="80" cy="80" r="2.5" fill="#fff" />
+            <circle cx="10" cy="10" r="2" fill="#0FB8A6" opacity="0.25" />
+            <path d="M10 10 L10 45 L45 45 L45 80 L80 80" stroke="#0FB8A6" strokeWidth="1" fill="none" opacity="0.2" />
+            <circle cx="45" cy="45" r="2" fill="#0FB8A6" opacity="0.25" />
+            <circle cx="80" cy="80" r="2" fill="#0FB8A6" opacity="0.25" />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#circuito)" />
       </svg>
 
-      <div style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 960, display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: 0, borderRadius: 24, overflow: 'hidden', boxShadow: '0 40px 80px rgba(0,0,0,0.35)' }}>
-
-        {/* Panel izquierdo: branding */}
-        <div style={{ padding: '56px 48px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', color: '#fff' }}>
-          <div>
-            <div style={{
-              width: 52, height: 52, borderRadius: 14, background: 'rgba(255,255,255,0.15)',
-              backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontWeight: 800, fontFamily: 'var(--font-display)', fontSize: 20, marginBottom: 28,
-              border: '1px solid rgba(255,255,255,0.25)'
-            }}>SI</div>
-            <h1 style={{ fontSize: 42, lineHeight: 1.05, marginBottom: 16, color: '#fff' }}>
-              Inventario<br />Informático
-            </h1>
-            <p style={{ fontSize: 15, opacity: 0.85, maxWidth: 320, lineHeight: 1.6 }}>
-              Control total del material de cómputo, red y comunicaciones de SITT — ubicación exacta,
-              historial de movimientos y alertas automáticas, todo en un solo lugar.
-            </p>
-          </div>
-          <div style={{ fontSize: 13, opacity: 0.7 }}>
-            H. XXV Ayuntamiento de Tijuana · SITT
-          </div>
-        </div>
-
-        {/* Panel derecho: formulario, efecto vidrio */}
+      <div style={{
+        position: 'relative', zIndex: 1, width: '100%', maxWidth: 460,
+        background: '#fff', borderRadius: 22, overflow: 'hidden', boxShadow: 'var(--shadow-lg)'
+      }}>
+        {/* Portada institucional — reemplázala subiendo tu imagen como frontend/public/login-bg.jpg */}
         <div style={{
-          background: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(20px)',
-          padding: '56px 44px', display: 'flex', flexDirection: 'column', justifyContent: 'center'
-        }}>
+          height: 176, backgroundImage: "url('/login-bg.jpg')", backgroundSize: 'cover',
+          backgroundPosition: 'center', backgroundColor: 'var(--ink)'
+        }} />
+
+        <div style={{ padding: '32px 36px 40px' }}>
           <h2 style={{ fontSize: 22, marginBottom: 6 }}>Bienvenido de vuelta</h2>
-          <p style={{ color: 'var(--text-muted)', fontSize: 14, marginBottom: 28 }}>Ingresa tus credenciales para continuar</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: 14, marginBottom: 26 }}>Ingresa tus credenciales para continuar</p>
 
           <form onSubmit={manejarSubmit}>
             <div className="field">
@@ -95,6 +75,10 @@ export default function Login() {
               {cargando ? 'Entrando…' : 'Entrar'}
             </button>
           </form>
+
+          <p style={{ textAlign: 'center', fontSize: 12, color: 'var(--text-muted)', marginTop: 24 }}>
+            H. XXV Ayuntamiento de Tijuana · SITT
+          </p>
         </div>
       </div>
     </div>

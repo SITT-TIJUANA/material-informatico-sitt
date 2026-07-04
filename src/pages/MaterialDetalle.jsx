@@ -53,7 +53,7 @@ export default function MaterialDetalle() {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+      <div className="g2" style={{ marginBottom: 16 }}>
         <div className="card">
           <h3 style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Ubicación en {material.bodega_nombre || 'bodega'}</h3>
           <MapaUbicacion fotoUrl={material.bodega_foto_url} x={material.pos_x} y={material.pos_y} nombreBodega={material.bodega_nombre} />
@@ -72,7 +72,7 @@ export default function MaterialDetalle() {
 
       <div className="card" style={{ marginBottom: 16 }}>
         <h3 style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Datos del resguardo</h3>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+        <div className="g3">
           <Dato label="Número" valor={material.numero} />
           <Dato label="No. Resguardo interno" valor={material.no_resguardo_interno} mono />
           <Dato label="Resguardo anterior" valor={material.resguardo_anterior} mono />

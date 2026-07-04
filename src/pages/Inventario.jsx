@@ -29,7 +29,7 @@ export default function Inventario() {
 
   return (
     <Layout>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 24 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
         <div>
           <h1 style={{ fontSize: 30 }}>Inventario</h1>
           <p style={{ color: 'var(--text-muted)', fontSize: 14, marginTop: 4 }}>{materiales.length} materiales encontrados</p>
@@ -37,11 +37,11 @@ export default function Inventario() {
         <Link to="/alta" className="btn btn-primary">+ Dar de alta</Link>
       </div>
 
-      <div style={{ display: 'flex', gap: 10, marginBottom: 22 }}>
+      <div style={{ display: 'flex', gap: 10, marginBottom: 22, flexWrap: 'wrap' }}>
         <input
           placeholder="Buscar por artículo, marca, modelo, serie, folio…"
           value={q} onChange={(e) => setQ(e.target.value)}
-          style={{ flex: 1, background: '#fff', border: '1px solid var(--border)', borderRadius: 100, padding: '12px 18px', color: 'var(--text)', fontSize: 14, boxShadow: 'var(--shadow)' }}
+          style={{ flex: '1 1 220px', minWidth: 0, background: '#fff', border: '1px solid var(--border)', borderRadius: 100, padding: '12px 18px', color: 'var(--text)', fontSize: 14, boxShadow: 'var(--shadow)' }}
         />
         <select value={bodegaId} onChange={(e) => setBodegaId(e.target.value)} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 100, padding: '12px 18px', color: 'var(--text)', boxShadow: 'var(--shadow)' }}>
           <option value="">Todas las bodegas</option>

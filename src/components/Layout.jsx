@@ -1,10 +1,16 @@
 import Sidebar from './Sidebar.jsx';
+import BottomNav from './BottomNav.jsx';
 
 export default function Layout({ children }) {
   return (
     <div style={{ display: 'flex', minHeight: '100vh' }}>
-      <Sidebar />
-      <main style={{ flex: 1, padding: '28px 36px', maxWidth: 1200 }}>{children}</main>
+      <div className="sidebar-desktop">
+        <Sidebar />
+      </div>
+      <main className="app-main" style={{ flex: 1, maxWidth: 1200 }}>
+        {children}
+      </main>
+      <BottomNav />
     </div>
   );
 }
