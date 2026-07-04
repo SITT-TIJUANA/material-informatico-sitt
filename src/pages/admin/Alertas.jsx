@@ -53,7 +53,7 @@ export default function Alertas() {
           Los correos de alta y baja se envían siempre a administradores y editores.
           Esta alerta adicional revisa todos los días a las 8:00 AM si hay materiales sin cambios recientes.
         </p>
-        {mensaje && <div style={{ fontSize: 13, color: 'var(--cyan)', marginBottom: 12 }}>{mensaje}</div>}
+        {mensaje && <div style={{ fontSize: 13, color: 'var(--aqua)', marginBottom: 12 }}>{mensaje}</div>}
         <div style={{ display: 'flex', gap: 10 }}>
           <button className="btn btn-primary" disabled={guardando}>{guardando ? 'Guardando…' : 'Guardar'}</button>
           <button type="button" className="btn btn-outline" onClick={probarAhora}>Probar ahora</button>

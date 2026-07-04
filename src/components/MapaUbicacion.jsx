@@ -51,7 +51,7 @@ export default function MapaUbicacion({ fotoUrl, x, y, editable = false, onChang
       {editable && (
         <div style={{
           position: 'absolute', bottom: 10, left: 10, background: 'rgba(16,20,26,0.85)',
-          padding: '4px 10px', borderRadius: 6, fontSize: 12, color: 'var(--cyan)'
+          padding: '4px 10px', borderRadius: 6, fontSize: 12, color: 'var(--aqua)'
         }}>
           Haz clic en la foto para marcar la ubicación exacta
         </div>
@@ -64,12 +64,12 @@ function Pin({ x, y }) {
   return (
     <div style={{ position: 'absolute', left: `${x}%`, top: `${y}%`, transform: 'translate(-50%,-100%)', pointerEvents: 'none' }}>
       <svg width="34" height="44" viewBox="0 0 34 44" style={{ filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.5))' }}>
-        <circle cx="17" cy="17" r="16" fill="rgba(242,169,59,0.25)">
+        <circle cx="17" cy="17" r="16" fill="rgba(231,169,76,0.28)">
           <animate attributeName="r" values="10;16;10" dur="2s" repeatCount="indefinite" />
           <animate attributeName="opacity" values="0.6;0.05;0.6" dur="2s" repeatCount="indefinite" />
         </circle>
-        <path d="M17 43C17 43 30 27.5 30 16.5C30 9.043 24.18 3 17 3C9.82 3 4 9.043 4 16.5C4 27.5 17 43 17 43Z" fill="#F2A93B" stroke="#10141A" strokeWidth="1.5" />
-        <circle cx="17" cy="16" r="5.5" fill="#10141A" />
+        <path d="M17 43C17 43 30 27.5 30 16.5C30 9.043 24.18 3 17 3C9.82 3 4 9.043 4 16.5C4 27.5 17 43 17 43Z" fill="#E7A94C" stroke="#0B2B29" strokeWidth="1.5" />
+        <circle cx="17" cy="16" r="5.5" fill="#0B2B29" />
       </svg>
     </div>
   );
