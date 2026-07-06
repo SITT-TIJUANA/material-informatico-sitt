@@ -9,11 +9,12 @@ const ICONOS = {
   bodegas: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 9.5 12 3l9 6.5V21H3V9.5Z" /><path d="M9 21v-7h6v7" /></svg>,
   usuarios: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="9" cy="8" r="3.5" /><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6" /><path d="M16.5 4.7a3.5 3.5 0 0 1 0 6.7M19.5 20c0-3-1.7-5.2-4.3-5.9" /></svg>,
   alertas: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 2a5 5 0 0 0-5 5v3.3c0 .6-.2 1.2-.6 1.7L4.8 14.6c-.9 1.1-.1 2.7 1.3 2.7h11.8c1.4 0 2.2-1.6 1.3-2.7l-1.6-2.6a2.6 2.6 0 0 1-.6-1.7V7a5 5 0 0 0-5-5Z" /><path d="M9 20a3 3 0 0 0 6 0" /></svg>,
+  ajustes: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z" /></svg>,
   colapsar: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="4" width="18" height="16" rx="2" /><path d="M9 4v16" /></svg>,
 };
 
 export default function Sidebar() {
-  const { usuario, logout, esAdmin } = useAuth();
+  const { usuario, esAdmin } = useAuth();
   const [colapsado, setColapsado] = useState(false);
 
   const enlace = (icono, label, to, end) => (
@@ -85,22 +86,26 @@ export default function Sidebar() {
             {enlace('alertas', 'Alertas', '/admin/alertas')}
           </>
         )}
+        {!colapsado && <div style={{ height: 1, background: 'var(--border)', margin: '14px 8px' }} />}
+        {enlace('ajustes', 'Ajustes', '/ajustes')}
       </nav>
 
-      <div style={{ borderTop: '1px solid var(--border)', paddingTop: 16, display: 'flex', alignItems: 'center', gap: 10, justifyContent: colapsado ? 'center' : 'flex-start' }}>
+      <NavLink to="/ajustes" style={{ borderTop: '1px solid var(--border)', paddingTop: 16, display: 'flex', alignItems: 'center', gap: 10, justifyContent: colapsado ? 'center' : 'flex-start' }}>
         <div style={{
           width: 34, height: 34, borderRadius: '50%', background: 'var(--aqua-dim)', color: 'var(--aqua-dark)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 13, flexShrink: 0
+          display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 13, flexShrink: 0, overflow: 'hidden'
         }}>
-          {usuario?.nombre?.charAt(0)?.toUpperCase() || '?'}
+          {usuario?.foto_perfil_url
+            ? <img src={usuario.foto_perfil_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            : (usuario?.nombre?.charAt(0)?.toUpperCase() || '?')}
         </div>
         {!colapsado && (
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontSize: 13, fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{usuario?.nombre}</div>
-            <button className="btn btn-ghost" style={{ padding: 0, fontSize: 12, height: 'auto' }} onClick={logout}>Cerrar sesión</button>
+            <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>Ver ajustes</div>
           </div>
         )}
-      </div>
+      </NavLink>
     </aside>
   );
 }

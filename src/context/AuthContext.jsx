@@ -23,11 +23,19 @@ export function AuthProvider({ children }) {
     setUsuario(null);
   }
 
+  // Vuelve a pedir los datos del usuario a la base (para reflejar cambios de perfil/foto al instante)
+  async function refrescarUsuario() {
+    const { data } = await api.get('/auth/me');
+    localStorage.setItem('inv_sitt_user', JSON.stringify(data));
+    setUsuario(data);
+    return data;
+  }
+
   const puedeEditar = usuario?.rol === 'administrador' || usuario?.rol === 'editor';
   const esAdmin = usuario?.rol === 'administrador';
 
   return (
-    <AuthContext.Provider value={{ usuario, login, logout, puedeEditar, esAdmin }}>
+    <AuthContext.Provider value={{ usuario, login, logout, refrescarUsuario, puedeEditar, esAdmin }}>
       {children}
     </AuthContext.Provider>
   );
