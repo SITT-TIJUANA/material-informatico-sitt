@@ -55,59 +55,59 @@ function LluviaComputadoras() {
   );
 }
 
-function EstilosGlitch() {
+// Loader "Pac-Man" para el botón de entrar
+function EstilosPacman() {
   return (
     <style>{`
-      .glitch {
-        position: relative;
-        font-size: 15px;
-        font-weight: 700;
-        line-height: 1.2;
-        color: #fff;
-        letter-spacing: 2px;
-        z-index: 1;
-        animation: shift 1s ease-in-out infinite alternate;
+      .pacman-wrapper { position: relative; width: 70px; height: 26px; }
+      .pacman-wrapper .packman { position: absolute; top: 50%; left: 13px; }
+      .pacman-wrapper .packman::before {
+        content: ''; position: absolute; width: 26px; height: 13px;
+        background-color: #fff; border-radius: 60px 60px 0 0;
+        transform: translate(-50%, -50%); transform-origin: center bottom;
+        animation: pac-top 0.5s linear infinite;
       }
-      .glitch:before,
-      .glitch:after {
-        display: block;
-        content: attr(data-glitch);
-        position: absolute;
-        top: 0;
-        left: 0;
-        opacity: 0.8;
+      .pacman-wrapper .packman::after {
+        content: ''; position: absolute; width: 26px; height: 13px;
+        background-color: #fff; border-radius: 0 0 60px 60px;
+        transform: translate(-50%, 50%); transform-origin: center top;
+        animation: pac-bot 0.5s linear infinite;
       }
-      .glitch:before {
-        animation: glitch 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
-        color: #8b00ff;
-        z-index: -1;
+      @keyframes pac-top {
+        0% { transform: translate(-50%, -50%) rotate(0); }
+        50% { transform: translate(-50%, -50%) rotate(-30deg); }
+        100% { transform: translate(-50%, -50%) rotate(0); }
       }
-      .glitch:after {
-        animation: glitch 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
-        color: #00e571;
-        z-index: -2;
+      @keyframes pac-bot {
+        0% { transform: translate(-50%, 50%) rotate(0); }
+        50% { transform: translate(-50%, 50%) rotate(30deg); }
+        100% { transform: translate(-50%, 50%) rotate(0); }
       }
-      @keyframes glitch {
-        0% { transform: translate(0); }
-        20% { transform: translate(-3px, 3px); }
-        40% { transform: translate(-3px, -3px); }
-        60% { transform: translate(3px, 3px); }
-        80% { transform: translate(3px, -3px); }
-        to { transform: translate(0); }
+      .pacman-wrapper .dots .dot {
+        position: absolute; top: 4px; width: 5px; height: 5px; border-radius: 50%;
+        background: rgba(255,255,255,0.65);
       }
-      @keyframes shift {
-        0%, 40%, 44%, 58%, 61%, 65%, 69%, 73%, 100% { transform: skewX(0deg); }
-        41% { transform: skewX(10deg); }
-        42% { transform: skewX(-10deg); }
-        59% { transform: skewX(40deg) skewY(10deg); }
-        60% { transform: skewX(-40deg) skewY(-10deg); }
-        63% { transform: skewX(10deg) skewY(-5deg); }
-        70% { transform: skewX(-50deg) skewY(-20deg); }
-        71% { transform: skewX(10deg) skewY(-10deg); }
-      }
+      .pacman-wrapper .dots .dot:nth-child(1) { left: 47px; animation: dot-stage1 0.5s infinite; }
+      .pacman-wrapper .dots .dot:nth-child(2) { left: 31px; animation: dot-stage1 0.5s infinite; }
+      .pacman-wrapper .dots .dot:nth-child(3) { left: 16px; animation: dot-stage1 0.5s infinite; }
+      .pacman-wrapper .dots .dot:nth-child(4) { left: 4px; animation: dot-stage2 0.5s infinite; }
+      @keyframes dot-stage1 { 0% { transform: translate(0, 0); } 100% { transform: translate(-12px, 0); } }
+      @keyframes dot-stage2 { 0% { transform: scale(1); } 5%, 100% { transform: scale(0); } }
     `}</style>
   );
 }
+
+function PacmanLoader() {
+  return (
+    <div className="pacman-wrapper">
+      <div className="packman" />
+      <div className="dots">
+        <div className="dot" /><div className="dot" /><div className="dot" /><div className="dot" />
+      </div>
+    </div>
+  );
+}
+
 export default function Login() {
   const [correo, setCorreo] = useState('');
   const [password, setPassword] = useState('');
@@ -135,7 +135,7 @@ export default function Login() {
       padding: 20, position: 'relative', overflow: 'hidden', background: 'var(--bg)'
     }}>
       <LluviaComputadoras />
-      <EstilosGlitch />
+      <EstilosPacman />
 
       <div style={{
         position: 'relative', zIndex: 1, width: '100%', maxWidth: 460,
@@ -169,9 +169,7 @@ export default function Login() {
             )}
 
             <button className="btn btn-primary" style={{ width: '100%', padding: '13px 0', fontSize: 15 }} disabled={cargando}>
-              {cargando
-                ? <span className="glitch" data-glitch="ENTRANDO...">ENTRANDO...</span>
-                : 'Entrar'}
+              {cargando ? <PacmanLoader /> : 'Entrar'}
             </button>
           </form>
 
