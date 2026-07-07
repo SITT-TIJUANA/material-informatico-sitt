@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, CartesianGrid } from 'recharts';
 import Layout from '../components/Layout.jsx';
 import Modal from '../components/Modal.jsx';
+import SegmentoDeslizante from '../components/SegmentoDeslizante.jsx';
 import { api } from '../api/client.js';
 
 const COLORES = ['#0FB8A6', '#E7A94C', '#2FBE7F', '#E8615B', '#5E7B78', '#7C6FE0', '#5AC8E0'];
@@ -49,23 +50,16 @@ export default function Inventario() {
       </div>
 
       {/* Control segmentado: Lista / Fotos / Gráficas */}
-      <div style={{
-        display: 'inline-flex', background: 'var(--surface-2)', borderRadius: 100, padding: 4, marginBottom: 22, gap: 2
-      }}>
-        {[['lista', 'Lista'], ['fotos', 'Fotos'], ['graficas', 'Gráficas']].map(([key, label]) => (
-          <button
-            key={key}
-            onClick={() => setVista(key)}
-            style={{
-              padding: '8px 18px', borderRadius: 100, border: 'none', fontSize: 13.5, fontWeight: 700, cursor: 'pointer',
-              background: vista === key ? '#fff' : 'transparent',
-              color: vista === key ? 'var(--aqua-dark)' : 'var(--text-muted)',
-              boxShadow: vista === key ? 'var(--shadow)' : 'none'
-            }}
-          >
-            {label}
-          </button>
-        ))}
+      <div style={{ marginBottom: 22 }}>
+        <SegmentoDeslizante
+          opciones={[
+            { value: 'lista', label: 'Lista' },
+            { value: 'fotos', label: 'Fotos' },
+            { value: 'graficas', label: 'Gráficas' }
+          ]}
+          valor={vista}
+          onChange={setVista}
+        />
       </div>
 
       {(vista === 'lista' || vista === 'fotos') && (
