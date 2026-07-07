@@ -11,7 +11,7 @@ export function Grupo({ titulo, children }) {
         }}>{titulo}</div>
       )}
       <div style={{
-        background: '#fff', borderRadius: 16, border: '1px solid var(--border)',
+        background: 'var(--surface)', borderRadius: 16, border: '1px solid var(--border)',
         overflow: 'hidden', boxShadow: 'var(--shadow)'
       }}>
         {children}

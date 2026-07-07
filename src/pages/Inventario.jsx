@@ -67,13 +67,13 @@ export default function Inventario() {
           <input
             placeholder="Buscar por artículo, marca, modelo, serie, folio…"
             value={q} onChange={(e) => setQ(e.target.value)}
-            style={{ flex: '1 1 220px', minWidth: 0, background: '#fff', border: '1px solid var(--border)', borderRadius: 100, padding: '12px 18px', color: 'var(--text)', fontSize: 14, boxShadow: 'var(--shadow)' }}
+            style={{ flex: '1 1 220px', minWidth: 0, background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 100, padding: '12px 18px', color: 'var(--text)', fontSize: 14, boxShadow: 'var(--shadow)' }}
           />
-          <select value={bodegaId} onChange={(e) => setBodegaId(e.target.value)} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 100, padding: '12px 18px', color: 'var(--text)', boxShadow: 'var(--shadow)' }}>
+          <select value={bodegaId} onChange={(e) => setBodegaId(e.target.value)} style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 100, padding: '12px 18px', color: 'var(--text)', boxShadow: 'var(--shadow)' }}>
             <option value="">Todas las bodegas</option>
             {bodegas.map((b) => <option key={b.id} value={b.id}>{b.nombre}</option>)}
           </select>
-          <select value={condicion} onChange={(e) => setCondicion(e.target.value)} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 100, padding: '12px 18px', color: 'var(--text)', boxShadow: 'var(--shadow)' }}>
+          <select value={condicion} onChange={(e) => setCondicion(e.target.value)} style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 100, padding: '12px 18px', color: 'var(--text)', boxShadow: 'var(--shadow)' }}>
             <option value="">Cualquier condición</option>
             <option value="Nuevo">Nuevo</option>
             <option value="Usado">Usado</option>
@@ -162,7 +162,7 @@ export default function Inventario() {
                     <CartesianGrid strokeDasharray="3 3" stroke="#DCEEEB" horizontal={false} />
                     <XAxis type="number" stroke="#5E7B78" fontSize={12} />
                     <YAxis type="category" dataKey="nombre" stroke="#5E7B78" fontSize={12} width={110} />
-                    <Tooltip contentStyle={{ background: '#fff', border: '1px solid #DCEEEB', borderRadius: 8 }} />
+                    <Tooltip contentStyle={{ background: 'var(--surface)', border: '1px solid #DCEEEB', borderRadius: 8 }} />
                     <Bar dataKey="total" fill="#0FB8A6" radius={[0, 4, 4, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
@@ -174,7 +174,7 @@ export default function Inventario() {
                     <Pie data={resumen.porCondicion || []} dataKey="total" nameKey="nombre" innerRadius={55} outerRadius={85} paddingAngle={3}>
                       {(resumen.porCondicion || []).map((_, i) => <Cell key={i} fill={COLORES[i % COLORES.length]} />)}
                     </Pie>
-                    <Tooltip contentStyle={{ background: '#fff', border: '1px solid #DCEEEB', borderRadius: 8 }} />
+                    <Tooltip contentStyle={{ background: 'var(--surface)', border: '1px solid #DCEEEB', borderRadius: 8 }} />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
@@ -186,7 +186,7 @@ export default function Inventario() {
                   <CartesianGrid strokeDasharray="3 3" stroke="#DCEEEB" vertical={false} />
                   <XAxis dataKey="nombre" stroke="#5E7B78" fontSize={12} />
                   <YAxis stroke="#5E7B78" fontSize={12} allowDecimals={false} />
-                  <Tooltip contentStyle={{ background: '#fff', border: '1px solid #DCEEEB', borderRadius: 8 }} />
+                  <Tooltip contentStyle={{ background: 'var(--surface)', border: '1px solid #DCEEEB', borderRadius: 8 }} />
                   <Bar dataKey="total" fill="#E7A94C" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>

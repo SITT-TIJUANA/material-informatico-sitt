@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../context/AuthContext.jsx';
+import ThemeToggle from './ThemeToggle.jsx';
 
 export default function FichaUsuario() {
   const { usuario } = useAuth();
@@ -61,7 +62,7 @@ export default function FichaUsuario() {
         aria-label="Mostrar u ocultar mi ficha"
         style={{
           position: 'fixed', right: 18, bottom: 96, zIndex: 60,
-          width: 48, height: 48, borderRadius: '50%', border: '3px solid #fff',
+          width: 48, height: 48, borderRadius: '50%', border: '3px solid var(--surface)',
           background: 'linear-gradient(135deg, var(--aqua), var(--aqua-dark))', color: '#fff',
           display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
           animation: abierta ? 'none' : 'botonPulso 2.2s ease-in-out infinite'
@@ -84,7 +85,7 @@ export default function FichaUsuario() {
             right: pos ? undefined : 18,
             bottom: pos ? undefined : 152,
             zIndex: 61, width: 200,
-            background: '#fff', borderRadius: 20, boxShadow: 'var(--shadow-lg)',
+            background: 'var(--surface)', borderRadius: 20, boxShadow: 'var(--shadow-lg)',
             border: '1px solid var(--border)', padding: '22px 18px 18px',
             animation: 'fichaEntra 0.25s ease', cursor: 'grab', userSelect: 'none',
             textAlign: 'center'
@@ -126,8 +127,17 @@ export default function FichaUsuario() {
             </div>
           </div>
 
-          <div style={{ fontSize: 12, color: 'var(--text-muted)', textTransform: 'capitalize', marginTop: 4 }}>
+          <div style={{ fontSize: 12, color: 'var(--text-muted)', textTransform: 'capitalize', marginTop: 4, marginBottom: 16 }}>
             {usuario?.rol}
+          </div>
+
+          <div
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, paddingTop: 14, borderTop: '1px solid var(--border)' }}
+            onMouseDown={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
+          >
+            <span style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 600 }}>Modo</span>
+            <ThemeToggle size={34} />
           </div>
         </div>
       )}

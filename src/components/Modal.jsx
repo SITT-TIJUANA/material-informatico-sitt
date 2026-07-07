@@ -22,7 +22,7 @@ export default function Modal({ abierto, onCerrar, children, ancho = 480 }) {
         onClick={(e) => e.stopPropagation()}
         className="scrollbar-thin"
         style={{
-          background: '#fff', borderRadius: 20, maxWidth: ancho, width: '100%',
+          background: 'var(--surface)', borderRadius: 20, maxWidth: ancho, width: '100%',
           maxHeight: '88vh', overflowY: 'auto', boxShadow: 'var(--shadow-lg)',
           animation: 'scaleIn .18s ease'
         }}

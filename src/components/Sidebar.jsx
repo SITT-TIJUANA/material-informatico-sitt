@@ -39,7 +39,7 @@ export default function Sidebar() {
   return (
     <aside style={{
       width: colapsado ? 84 : 252, minHeight: '100vh', borderRight: '1px solid var(--border)',
-      background: '#fff', display: 'flex', flexDirection: 'column', padding: 18, position: 'sticky', top: 0,
+      background: 'var(--surface)', display: 'flex', flexDirection: 'column', padding: 18, position: 'sticky', top: 0,
       transition: 'width .2s ease'
     }}>
       <style>{`
@@ -73,7 +73,7 @@ export default function Sidebar() {
           onClick={() => setColapsado((v) => !v)}
           title={colapsado ? 'Expandir menú' : 'Ocultar menú'}
           style={{
-            width: 32, height: 32, borderRadius: 8, border: '1px solid var(--border)', background: '#fff',
+            width: 32, height: 32, borderRadius: 8, border: '1px solid var(--border)', background: 'var(--surface)',
             color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0
           }}
         >
