@@ -7,10 +7,10 @@ export default function Layout({ children }) {
   return (
     <div style={{ display: 'flex', minHeight: '100vh' }}>
       <FondoAmbiente />
-      <div className="sidebar-desktop">
+      <div className="sidebar-desktop" style={{ position: 'relative', zIndex: 1 }}>
         <Sidebar />
       </div>
-      <main className="app-main" style={{ flex: 1, maxWidth: 1200 }}>
+      <main className="app-main" style={{ flex: 1, maxWidth: 1200, position: 'relative', zIndex: 1 }}>
         {children}
       </main>
       <BottomNav />

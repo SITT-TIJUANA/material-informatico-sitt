@@ -17,7 +17,7 @@ function IconoAmbiente({ tipo, ...p }) {
 
 export default function FondoAmbiente() {
   return (
-    <div style={{ position: 'fixed', inset: 0, zIndex: -1, overflow: 'hidden', pointerEvents: 'none' }}>
+    <div style={{ position: 'fixed', inset: 0, zIndex: 0, overflow: 'hidden', pointerEvents: 'none' }}>
       <style>{`
         @keyframes auroraFlotar1 {
           0%, 100% { transform: translate(0, 0) scale(1); }
@@ -29,8 +29,8 @@ export default function FondoAmbiente() {
         }
         @keyframes iconoAmbienteCae {
           0% { transform: translateY(-6vh) rotate(0deg); opacity: 0; }
-          8% { opacity: 0.16; }
-          92% { opacity: 0.16; }
+          8% { opacity: 0.32; }
+          92% { opacity: 0.32; }
           100% { transform: translateY(106vh) rotate(20deg); opacity: 0; }
         }
       `}</style>
@@ -38,21 +38,21 @@ export default function FondoAmbiente() {
       {/* Auroras difuminadas */}
       <div style={{
         position: 'absolute', top: '-10%', left: '-8%', width: '46vw', height: '46vw', borderRadius: '50%',
-        background: 'radial-gradient(circle, var(--aqua-dim), transparent 70%)',
-        filter: 'blur(60px)', animation: 'auroraFlotar1 22s ease-in-out infinite'
+        background: 'radial-gradient(circle, rgba(15,184,166,0.22), transparent 70%)',
+        filter: 'blur(50px)', animation: 'auroraFlotar1 22s ease-in-out infinite'
       }} />
       <div style={{
         position: 'absolute', bottom: '-14%', right: '-10%', width: '50vw', height: '50vw', borderRadius: '50%',
-        background: 'radial-gradient(circle, var(--gold-dim), transparent 70%)',
-        filter: 'blur(70px)', animation: 'auroraFlotar2 26s ease-in-out infinite'
+        background: 'radial-gradient(circle, rgba(231,169,76,0.2), transparent 70%)',
+        filter: 'blur(60px)', animation: 'auroraFlotar2 26s ease-in-out infinite'
       }} />
       <div style={{
         position: 'absolute', top: '35%', left: '40%', width: '30vw', height: '30vw', borderRadius: '50%',
-        background: 'radial-gradient(circle, var(--aqua-dim), transparent 70%)',
-        filter: 'blur(80px)', opacity: 0.6, animation: 'auroraFlotar1 30s ease-in-out infinite reverse'
+        background: 'radial-gradient(circle, rgba(15,184,166,0.16), transparent 70%)',
+        filter: 'blur(70px)', animation: 'auroraFlotar1 30s ease-in-out infinite reverse'
       }} />
 
-      {/* Lluvia de iconos, muy sutil */}
+      {/* Lluvia de iconos, sutil pero visible */}
       {ICONOS_AMBIENTE.map((it, i) => (
         <IconoAmbiente
           key={i}
