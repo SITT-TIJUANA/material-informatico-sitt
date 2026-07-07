@@ -1,5 +1,6 @@
 import Sidebar from './Sidebar.jsx';
 import BottomNav from './BottomNav.jsx';
+import FichaUsuario from './FichaUsuario.jsx';
 
 export default function Layout({ children }) {
   return (
@@ -11,6 +12,7 @@ export default function Layout({ children }) {
         {children}
       </main>
       <BottomNav />
+      <FichaUsuario />
     </div>
   );
 }

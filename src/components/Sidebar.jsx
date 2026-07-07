@@ -42,15 +42,27 @@ export default function Sidebar() {
       background: '#fff', display: 'flex', flexDirection: 'column', padding: 18, position: 'sticky', top: 0,
       transition: 'width .2s ease'
     }}>
+      <style>{`
+        @keyframes logoGlow {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(15,184,166,0.45), 0 8px 18px rgba(15,184,166,0.35); }
+          50% { box-shadow: 0 0 0 10px rgba(15,184,166,0), 0 8px 22px rgba(15,184,166,0.5); }
+        }
+        @keyframes logoFlotar {
+          0%, 100% { transform: translateY(0) scale(1); }
+          50% { transform: translateY(-3px) scale(1.03); }
+        }
+      `}</style>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 28, justifyContent: colapsado ? 'center' : 'space-between' }}>
         {!colapsado && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{
-              width: 38, height: 38, borderRadius: 11,
-              background: 'linear-gradient(135deg, var(--aqua), var(--aqua-dark))',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 800,
-              fontFamily: 'var(--font-display)', fontSize: 15, boxShadow: '0 6px 14px rgba(15,184,166,0.3)'
-            }}>SI</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <img
+              src={`${import.meta.env.BASE_URL}icons/icon-192.png`}
+              alt="Inventario Informático SITT"
+              style={{
+                width: 52, height: 52, borderRadius: 14, objectFit: 'cover',
+                animation: 'logoGlow 2.4s ease-in-out infinite, logoFlotar 2.4s ease-in-out infinite'
+              }}
+            />
             <div>
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15, lineHeight: 1.1, color: 'var(--ink)' }}>Inventario</div>
               <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Informático SITT</div>
