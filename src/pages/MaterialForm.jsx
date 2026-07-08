@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout.jsx';
 import MapaUbicacion from '../components/MapaUbicacion.jsx';
+import TarjetaSubidaFoto from '../components/TarjetaSubidaFoto.jsx';
 import { api } from '../api/client.js';
 
 const CLASIFICACIONES = ['Cómputo', 'Red', 'Video', 'Audio', 'Comunicación', 'Electricidad', 'Herramienta', 'Acceso', 'Cable', 'Equipo'];
@@ -84,18 +85,13 @@ export default function MaterialForm() {
         <div className="g2" style={{ marginBottom: 16 }}>
           <div className="card">
             <h3 style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Foto del material</h3>
-            <div style={{
-              aspectRatio: '4/3', borderRadius: 8, overflow: 'hidden', background: 'var(--surface-2)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12, border: '1px solid var(--border)'
-            }}>
-              {(fotoPreview || fotoActualUrl)
-                ? <img src={fotoPreview || fotoActualUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                : <span style={{ color: 'var(--text-muted)', fontSize: 13 }}>Sin foto</span>}
-            </div>
-            <label className="btn btn-outline" style={{ cursor: 'pointer', display: 'inline-flex' }}>
-              Tomar / subir foto
-              <input type="file" accept="image/*" capture="environment" onChange={manejarArchivo} style={{ display: 'none' }} />
-            </label>
+            <TarjetaSubidaFoto
+              titulo="Foto del material"
+              descripcion="Sube o toma una foto del equipo — ayuda a identificarlo rápido en la lista y al momento de dar de baja."
+              previewUrl={fotoPreview || fotoActualUrl}
+              onArchivo={(file) => { setFoto(file); setFotoPreview(URL.createObjectURL(file)); }}
+              capture="environment"
+            />
           </div>
 
           <div className="card">
