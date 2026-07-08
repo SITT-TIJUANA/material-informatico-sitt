@@ -57,7 +57,7 @@ export default function MaterialForm() {
     setGuardando(true); setError('');
 
     const form = new FormData();
-    Object.entries(datos).forEach(([k, v]) => form.append(k, v ?? ''));
+    Object.keys(VACIO).forEach((k) => form.append(k, datos[k] ?? ''));
     if (pin.x != null) form.append('pos_x', pin.x);
     if (pin.y != null) form.append('pos_y', pin.y);
     if (foto) form.append('foto', foto);

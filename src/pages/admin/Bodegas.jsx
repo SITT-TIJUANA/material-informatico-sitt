@@ -10,6 +10,8 @@ export default function Bodegas() {
   const [foto, setFoto] = useState(null);
   const [fotoPreview, setFotoPreview] = useState(null);
   const [guardando, setGuardando] = useState(false);
+  const [editandoId, setEditandoId] = useState(null);
+  const [edit, setEdit] = useState({ nombre: '', descripcion: '' });
 
   async function cargar() {
     const { data } = await api.get('/bodegas');
@@ -38,6 +40,29 @@ export default function Bodegas() {
     cargar();
   }
 
+  function abrirEdicion(b) {
+    setEditandoId(b.id);
+    setEdit({ nombre: b.nombre, descripcion: b.descripcion || '' });
+  }
+
+  async function guardarEdicion(bodegaId) {
+    const form = new FormData();
+    form.append('nombre', edit.nombre);
+    form.append('descripcion', edit.descripcion);
+    await api.put(`/bodegas/${bodegaId}`, form);
+    setEditandoId(null);
+    cargar();
+  }
+
+  async function eliminarBodega(b) {
+    const ok = confirm(
+      `¿Eliminar la bodega "${b.nombre}"? Los materiales que estaban ahí no se borran, solo quedan sin bodega asignada.`
+    );
+    if (!ok) return;
+    await api.delete(`/bodegas/${b.id}`);
+    cargar();
+  }
+
   return (
     <Layout>
       <h1 style={{ fontSize: 24, marginBottom: 20 }}>Bodegas</h1>
@@ -53,8 +78,32 @@ export default function Bodegas() {
                 onArchivo={(file) => actualizarFoto(b.id, file)}
               />
             </div>
-            <div style={{ fontWeight: 600, marginBottom: 4 }}>{b.nombre}</div>
-            <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>{b.descripcion || 'Sin descripción'}</div>
+
+            {editandoId === b.id ? (
+              <div>
+                <div className="field" style={{ marginBottom: 8 }}>
+                  <label>Nombre</label>
+                  <input value={edit.nombre} onChange={(e) => setEdit({ ...edit, nombre: e.target.value })} />
+                </div>
+                <div className="field" style={{ marginBottom: 10 }}>
+                  <label>Descripción</label>
+                  <input value={edit.descripcion} onChange={(e) => setEdit({ ...edit, descripcion: e.target.value })} />
+                </div>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button className="btn btn-primary" style={{ fontSize: 13 }} onClick={() => guardarEdicion(b.id)}>Guardar</button>
+                  <button className="btn btn-ghost" style={{ fontSize: 13 }} onClick={() => setEditandoId(null)}>Cancelar</button>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <div style={{ fontWeight: 600, marginBottom: 4 }}>{b.nombre}</div>
+                <div style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 12 }}>{b.descripcion || 'Sin descripción'}</div>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button className="btn btn-outline" style={{ fontSize: 13 }} onClick={() => abrirEdicion(b)}>Editar</button>
+                  <button className="btn btn-danger" style={{ fontSize: 13 }} onClick={() => eliminarBodega(b)}>Eliminar</button>
+                </div>
+              </div>
+            )}
           </div>
         ))}
       </div>
