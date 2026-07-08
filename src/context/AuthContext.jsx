@@ -17,6 +17,13 @@ export function AuthProvider({ children }) {
     return data.usuario;
   }
 
+  // Entra directo con un token ya emitido (usado por el flujo de QR), sin pedir correo/contraseña
+  function entrarConSesion(token, usuarioData) {
+    localStorage.setItem('inv_sitt_token', token);
+    localStorage.setItem('inv_sitt_user', JSON.stringify(usuarioData));
+    setUsuario(usuarioData);
+  }
+
   function logout() {
     localStorage.removeItem('inv_sitt_token');
     localStorage.removeItem('inv_sitt_user');
@@ -35,7 +42,7 @@ export function AuthProvider({ children }) {
   const esAdmin = usuario?.rol === 'administrador';
 
   return (
-    <AuthContext.Provider value={{ usuario, login, logout, refrescarUsuario, puedeEditar, esAdmin }}>
+    <AuthContext.Provider value={{ usuario, login, logout, refrescarUsuario, entrarConSesion, puedeEditar, esAdmin }}>
       {children}
     </AuthContext.Provider>
   );

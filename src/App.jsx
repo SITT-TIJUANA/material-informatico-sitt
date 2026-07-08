@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Login from './pages/Login.jsx';
+import EntrarQR from './pages/EntrarQR.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import Inventario from './pages/Inventario.jsx';
 import MaterialDetalle from './pages/MaterialDetalle.jsx';
@@ -15,6 +16,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
+      <Route path="/entrar-qr" element={<EntrarQR />} />
       <Route path="/" element={<RutaProtegida><Dashboard /></RutaProtegida>} />
       <Route path="/inventario" element={<RutaProtegida><Inventario /></RutaProtegida>} />
       <Route path="/material/:id" element={<RutaProtegida><MaterialDetalle /></RutaProtegida>} />
