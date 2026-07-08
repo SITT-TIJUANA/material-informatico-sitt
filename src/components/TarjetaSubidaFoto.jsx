@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 let estilosInyectados = false;
 function inyectarEstilos() {
@@ -14,6 +14,7 @@ function inyectarEstilos() {
       border: 1px solid var(--border);
       box-shadow: 0 0 0 4px var(--surface);
       transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none;
     }
     .tarjeta-subida:hover { transform: scale(1.015); box-shadow: var(--shadow-lg); }
     .tarjeta-subida__icono {
@@ -38,15 +39,10 @@ function inyectarEstilos() {
       .tarjeta-subida:hover .tarjeta-subida__contenido { transform: rotateX(0deg); }
     }
     @media (hover: none) {
-      .tarjeta-subida__contenido {
-        transform: none; inset: auto; bottom: 0; left: 0; right: 0; padding: 8px 10px;
-        background: rgba(11,43,41,0.72);
-      }
-      .tarjeta-subida__desc { display: none; }
-      .tarjeta-subida__titulo { font-size: 12px; }
-      .tarjeta-subida--con-foto .tarjeta-subida__icono { display: none; }
+      .tarjeta-subida__desc { display: block; }
+      .tarjeta-subida.presionando .tarjeta-subida__icono { transform: scale(0); opacity: 0; }
+      .tarjeta-subida.presionando .tarjeta-subida__contenido { transform: rotateX(0deg); }
     }
-    .tarjeta-subida--con-foto .tarjeta-subida__icono { opacity: 0.9; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5)); color: #fff; }
   `;
   document.head.appendChild(style);
 }
@@ -54,28 +50,54 @@ function inyectarEstilos() {
 export default function TarjetaSubidaFoto({ titulo, descripcion, previewUrl, onArchivo, capture }) {
   inyectarEstilos();
   const inputRef = useRef(null);
+  const [presionando, setPresionando] = useState(false);
+  const temporizador = useRef(null);
+  const seMovio = useRef(false);
 
   function manejarCambio(e) {
     const file = e.target.files?.[0];
     if (file) onArchivo(file);
   }
 
+  function iniciarPresion() {
+    seMovio.current = false;
+    temporizador.current = setTimeout(() => setPresionando(true), 280);
+  }
+  function cancelarPresion() {
+    clearTimeout(temporizador.current);
+  }
+  function soltar() {
+    clearTimeout(temporizador.current);
+    if (presionando) {
+      // Si ya se estaba mostrando la descripción, este toque solo la cierra
+      setPresionando(false);
+    } else if (!seMovio.current) {
+      // Toque normal y corto: abre selector de archivo
+      inputRef.current?.click();
+    }
+  }
+
   return (
     <div
-      className={`tarjeta-subida${previewUrl ? ' tarjeta-subida--con-foto' : ''}`}
-      onClick={() => inputRef.current?.click()}
+      className={`tarjeta-subida${presionando ? ' presionando' : ''}`}
+      onClick={(e) => {
+        // En dispositivos con mouse real, el click normal sigue abriendo el selector
+        if (window.matchMedia('(hover: hover)').matches) inputRef.current?.click();
+      }}
+      onTouchStart={iniciarPresion}
+      onTouchMove={() => { seMovio.current = true; cancelarPresion(); }}
+      onTouchEnd={soltar}
+      onTouchCancel={cancelarPresion}
     >
-      {previewUrl && <img src={previewUrl} alt="" className="tarjeta-subida__preview" />}
+      <img
+        src={previewUrl || undefined}
+        alt=""
+        className="tarjeta-subida__preview"
+        style={{ display: previewUrl ? 'block' : 'none' }}
+      />
 
       {!previewUrl && (
         <svg className="tarjeta-subida__icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-          <path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z" />
-          <circle cx="12" cy="14" r="3.5" />
-        </svg>
-      )}
-
-      {previewUrl && (
-        <svg className="tarjeta-subida__icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" style={{ position: 'absolute', width: 30, height: 30 }}>
           <path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z" />
           <circle cx="12" cy="14" r="3.5" />
         </svg>
