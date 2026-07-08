@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout.jsx';
 import MapaUbicacion from '../components/MapaUbicacion.jsx';
 import TarjetaSubidaFoto from '../components/TarjetaSubidaFoto.jsx';
+import { useToast } from '../context/ToastContext.jsx';
 import { api } from '../api/client.js';
 
 const CLASIFICACIONES = ['Cómputo', 'Red', 'Video', 'Audio', 'Comunicación', 'Electricidad', 'Herramienta', 'Acceso', 'Cable', 'Equipo'];
@@ -17,6 +18,7 @@ export default function MaterialForm() {
   const { id } = useParams();
   const editando = Boolean(id);
   const navigate = useNavigate();
+  const { notificar } = useToast();
 
   const [datos, setDatos] = useState(VACIO);
   const [bodegas, setBodegas] = useState([]);
@@ -65,13 +67,25 @@ export default function MaterialForm() {
     try {
       if (editando) {
         await api.put(`/materiales/${id}`, form);
+        notificar({ tipo: 'exito', titulo: 'Cambios guardados', mensaje: `${datos.articulo} se actualizó correctamente.` });
         navigate(`/material/${id}`);
       } else {
         const { data } = await api.post('/materiales', form);
+        notificar({
+          tipo: 'exito',
+          titulo: 'Material registrado',
+          mensaje: `${data.articulo} se agregó al inventario.`,
+          acciones: [
+            { label: 'Ver material', onClick: () => navigate(`/material/${data.id}`) },
+            { label: 'Dar de alta otro', onClick: () => navigate('/alta'), cerrar: false }
+          ]
+        });
         navigate(`/material/${data.id}`);
       }
     } catch (err) {
-      setError(err.response?.data?.error || 'No se pudo guardar el material');
+      const mensaje = err.response?.data?.error || 'No se pudo guardar el material';
+      setError(mensaje);
+      notificar({ tipo: 'error', titulo: editando ? 'No se guardaron los cambios' : 'No se pudo dar de alta', mensaje });
     } finally {
       setGuardando(false);
     }

@@ -4,12 +4,14 @@ import Layout from '../components/Layout.jsx';
 import MapaUbicacion from '../components/MapaUbicacion.jsx';
 import { api } from '../api/client.js';
 import { useAuth } from '../context/AuthContext.jsx';
+import { useToast } from '../context/ToastContext.jsx';
 
 export default function MaterialDetalle() {
   const { id } = useParams();
   const [material, setMaterial] = useState(null);
   const [cargando, setCargando] = useState(true);
   const { puedeEditar, esAdmin } = useAuth();
+  const { notificar } = useToast();
   const navigate = useNavigate();
 
   async function cargar() {
@@ -22,17 +24,32 @@ export default function MaterialDetalle() {
   async function darDeBaja() {
     const motivo = prompt('Motivo de la baja (opcional):') || '';
     if (!confirm('¿Confirmas la baja de este material?')) return;
-    await api.post(`/materiales/${id}/baja`, { motivo });
-    cargar();
+    try {
+      await api.post(`/materiales/${id}/baja`, { motivo });
+      notificar({ tipo: 'exito', titulo: 'Material dado de baja', mensaje: `${material.articulo} ya no aparece como activo.` });
+      cargar();
+    } catch (err) {
+      notificar({ tipo: 'error', titulo: 'No se pudo dar de baja', mensaje: err.response?.data?.error || 'Intenta de nuevo.' });
+    }
   }
   async function reactivar() {
-    await api.post(`/materiales/${id}/reactivar`);
-    cargar();
+    try {
+      await api.post(`/materiales/${id}/reactivar`);
+      notificar({ tipo: 'exito', titulo: 'Material reactivado', mensaje: `${material.articulo} vuelve a estar activo.` });
+      cargar();
+    } catch (err) {
+      notificar({ tipo: 'error', titulo: 'No se pudo reactivar', mensaje: err.response?.data?.error || 'Intenta de nuevo.' });
+    }
   }
   async function eliminar() {
     if (!confirm('Esto elimina el material permanentemente, incluyendo su historial. ¿Continuar?')) return;
-    await api.delete(`/materiales/${id}`);
-    navigate('/inventario');
+    try {
+      await api.delete(`/materiales/${id}`);
+      notificar({ tipo: 'exito', titulo: 'Material eliminado', mensaje: 'Se borró de forma permanente.' });
+      navigate('/inventario');
+    } catch (err) {
+      notificar({ tipo: 'error', titulo: 'No se pudo eliminar', mensaje: err.response?.data?.error || 'Intenta de nuevo.' });
+    }
   }
 
   if (cargando) return <Layout><p style={{ color: 'var(--text-muted)' }}>Cargando…</p></Layout>;
