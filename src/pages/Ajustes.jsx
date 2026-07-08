@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout.jsx';
 import { Grupo, Fila } from '../components/ListaAgrupada.jsx';
 import QRConectar from '../components/QRConectar.jsx';
+import BotonCerrarSesion from '../components/BotonCerrarSesion.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import { api } from '../api/client.js';
 
@@ -91,9 +92,9 @@ export default function Ajustes() {
         </Grupo>
       )}
 
-      <Grupo>
-        <Fila icono={IC.salir} label="Cerrar sesión" onClick={logout} destructivo ultima />
-      </Grupo>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: 8, marginBottom: 8 }}>
+        <BotonCerrarSesion onClick={logout} />
+      </div>
 
       <p style={{ textAlign: 'center', fontSize: 12, color: 'var(--text-muted)' }}>
         Inventario Informático SITT
