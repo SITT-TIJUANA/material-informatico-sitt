@@ -22,7 +22,9 @@ export default function Dashboard() {
 
       <div className="g3" style={{ marginBottom: 24 }}>
         <Tarjeta label="Materiales activos" valor={resumen?.total ?? '—'} color="var(--aqua)" />
-        <Tarjeta label="Bajas registradas" valor={resumen?.bajas ?? '—'} color="var(--red)" />
+        <Link to="/inventario?estado=baja" style={{ display: 'block' }}>
+          <Tarjeta label="Bajas registradas" valor={resumen?.bajas ?? '—'} color="var(--red)" />
+        </Link>
         <Tarjeta label="Sin movimiento" valor={sinMovimiento?.materiales?.length ?? '—'} color="var(--gold)"
           nota={sinMovimiento ? `+${sinMovimiento.dias} días sin cambios` : ''} />
       </div>

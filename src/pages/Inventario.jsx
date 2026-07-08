@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, CartesianGrid } from 'recharts';
 import Layout from '../components/Layout.jsx';
 import Modal from '../components/Modal.jsx';
@@ -9,12 +9,14 @@ import { api } from '../api/client.js';
 const COLORES = ['#0FB8A6', '#E7A94C', '#2FBE7F', '#E8615B', '#5E7B78', '#7C6FE0', '#5AC8E0'];
 
 export default function Inventario() {
+  const [params] = useSearchParams();
   const [vista, setVista] = useState('lista'); // 'lista' | 'fotos' | 'graficas'
   const [materiales, setMateriales] = useState([]);
   const [bodegas, setBodegas] = useState([]);
   const [q, setQ] = useState('');
   const [bodegaId, setBodegaId] = useState('');
   const [condicion, setCondicion] = useState('');
+  const [estado, setEstado] = useState(params.get('estado') === 'baja' ? 'baja' : 'activo');
   const [cargando, setCargando] = useState(true);
   const [seleccionado, setSeleccionado] = useState(null);
   const [resumen, setResumen] = useState(null);
@@ -22,7 +24,7 @@ export default function Inventario() {
 
   async function cargar() {
     setCargando(true);
-    const { data } = await api.get('/materiales', { params: { q, bodega_id: bodegaId, condicion } });
+    const { data } = await api.get('/materiales', { params: { q, bodega_id: bodegaId, condicion, activo: estado === 'baja' ? 'false' : 'true' } });
     setMateriales(data);
     setCargando(false);
   }
@@ -31,7 +33,7 @@ export default function Inventario() {
   useEffect(() => {
     const t = setTimeout(cargar, 300);
     return () => clearTimeout(t);
-  }, [q, bodegaId, condicion]);
+  }, [q, bodegaId, condicion, estado]);
 
   useEffect(() => {
     if (vista === 'graficas' && !resumen) {
@@ -69,6 +71,10 @@ export default function Inventario() {
             value={q} onChange={(e) => setQ(e.target.value)}
             style={{ flex: '1 1 220px', minWidth: 0, background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 100, padding: '12px 18px', color: 'var(--text)', fontSize: 14, boxShadow: 'var(--shadow)' }}
           />
+          <select value={estado} onChange={(e) => setEstado(e.target.value)} style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 100, padding: '12px 18px', color: estado === 'baja' ? 'var(--red)' : 'var(--text)', fontWeight: estado === 'baja' ? 700 : 400, boxShadow: 'var(--shadow)' }}>
+            <option value="activo">Materiales activos</option>
+            <option value="baja">Dados de baja</option>
+          </select>
           <select value={bodegaId} onChange={(e) => setBodegaId(e.target.value)} style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 100, padding: '12px 18px', color: 'var(--text)', boxShadow: 'var(--shadow)' }}>
             <option value="">Todas las bodegas</option>
             {bodegas.map((b) => <option key={b.id} value={b.id}>{b.nombre}</option>)}
@@ -79,6 +85,15 @@ export default function Inventario() {
             <option value="Usado">Usado</option>
             <option value="Dañado">Dañado</option>
           </select>
+        </div>
+      )}
+
+      {estado === 'baja' && vista !== 'graficas' && (
+        <div style={{
+          background: 'var(--red-dim)', color: 'var(--red)', padding: '10px 16px', borderRadius: 10,
+          fontSize: 13, marginBottom: 18, fontWeight: 600
+        }}>
+          Estás viendo materiales dados de baja. Abre uno y usa "Reactivar" si necesitas regresarlo al inventario activo.
         </div>
       )}
 
@@ -104,7 +119,10 @@ export default function Inventario() {
                   <div style={{ fontSize: 12.5, color: 'var(--text-muted)' }}>{m.marca} {m.modelo}</div>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span className={`badge badge-${m.condicion?.toLowerCase()}`}>{m.condicion}</span>
+                  <div style={{ display: 'flex', gap: 6 }}>
+                    <span className={`badge badge-${m.condicion?.toLowerCase()}`}>{m.condicion}</span>
+                    {estado === 'baja' && <span className="badge badge-baja">Baja</span>}
+                  </div>
                   <span className="mono" style={{ fontSize: 11, color: 'var(--text-muted)' }}>{m.bodega_nombre || 'Sin bodega'}</span>
                 </div>
               </button>
