@@ -169,14 +169,35 @@ export default function Inventario() {
               </div>
               <div className="card">
                 <h3 style={{ fontSize: 15, marginBottom: 16 }}>Condición del equipo</h3>
-                <ResponsiveContainer width="100%" height={280}>
-                  <PieChart>
-                    <Pie data={resumen.porCondicion || []} dataKey="total" nameKey="nombre" innerRadius={55} outerRadius={85} paddingAngle={3}>
-                      {(resumen.porCondicion || []).map((_, i) => <Cell key={i} fill={COLORES[i % COLORES.length]} />)}
-                    </Pie>
-                    <Tooltip contentStyle={{ background: 'var(--surface)', border: '1px solid #DCEEEB', borderRadius: 8 }} />
-                  </PieChart>
-                </ResponsiveContainer>
+                {resumen.porCondicion?.length > 0 ? (
+                  <>
+                    <ResponsiveContainer width="100%" height={220}>
+                      <PieChart>
+                        <Pie
+                          data={resumen.porCondicion} dataKey="total" nameKey="nombre"
+                          innerRadius={55} outerRadius={85} paddingAngle={resumen.porCondicion.length > 1 ? 3 : 0}
+                          startAngle={90} endAngle={-270} isAnimationActive={false}
+                        >
+                          {resumen.porCondicion.map((_, i) => <Cell key={i} fill={COLORES[i % COLORES.length]} />)}
+                        </Pie>
+                        <Tooltip contentStyle={{ background: 'var(--surface)', border: '1px solid #DCEEEB', borderRadius: 8 }} />
+                      </PieChart>
+                    </ResponsiveContainer>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center', marginTop: 8 }}>
+                      {resumen.porCondicion.map((c, i) => (
+                        <div key={c.nombre} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12.5 }}>
+                          <span style={{ width: 9, height: 9, borderRadius: '50%', background: COLORES[i % COLORES.length] }} />
+                          <span style={{ color: 'var(--text-muted)' }}>{c.nombre}</span>
+                          <span style={{ fontWeight: 700 }}>{c.total}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <div style={{ height: 220, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)', fontSize: 13 }}>
+                    Todavía no hay materiales para mostrar aquí.
+                  </div>
+                )}
               </div>
             </div>
             <div className="card">
