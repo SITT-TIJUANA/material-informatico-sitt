@@ -24,7 +24,7 @@ export default function App() {
       <Route path="/material/:id/editar" element={<RutaProtegida><RutaEditor><MaterialForm /></RutaEditor></RutaProtegida>} />
       <Route path="/ajustes" element={<RutaProtegida><Ajustes /></RutaProtegida>} />
       <Route path="/historial" element={<RutaProtegida><Historial /></RutaProtegida>} />
-      <Route path="/admin/bodegas" element={<RutaProtegida><RutaAdmin><Bodegas /></RutaAdmin></RutaProtegida>} />
+      <Route path="/admin/bodegas" element={<RutaProtegida><RutaEditor><Bodegas /></RutaEditor></RutaProtegida>} />
       <Route path="/admin/usuarios" element={<RutaProtegida><RutaAdmin><Usuarios /></RutaAdmin></RutaProtegida>} />
       <Route path="/admin/alertas" element={<RutaProtegida><RutaAdmin><Alertas /></RutaAdmin></RutaProtegida>} />
     </Routes>
