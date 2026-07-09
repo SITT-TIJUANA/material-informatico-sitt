@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import Layout from '../../components/Layout.jsx';
 import TarjetaSubidaFoto from '../../components/TarjetaSubidaFoto.jsx';
+import { useAuth } from '../../context/AuthContext.jsx';
 import { api } from '../../api/client.js';
 
 export default function Bodegas() {
+  const { esAdmin } = useAuth();
   const [bodegas, setBodegas] = useState([]);
   const [nombre, setNombre] = useState('');
   const [descripcion, setDescripcion] = useState('');
@@ -71,15 +73,21 @@ export default function Bodegas() {
         {bodegas.map((b) => (
           <div key={b.id} className="card">
             <div style={{ marginBottom: 12 }}>
-              <TarjetaSubidaFoto
-                titulo={b.foto_url ? 'Reemplazar foto' : 'Subir foto general'}
-                descripcion="Foto completa de la bodega, tomada de frente — sobre esta imagen se marcará después la ubicación exacta de cada material."
-                previewUrl={b.foto_url}
-                onArchivo={(file) => actualizarFoto(b.id, file)}
-              />
+              {esAdmin ? (
+                <TarjetaSubidaFoto
+                  titulo={b.foto_url ? 'Reemplazar foto' : 'Subir foto general'}
+                  descripcion="Foto completa de la bodega, tomada de frente — sobre esta imagen se marcará después la ubicación exacta de cada material."
+                  previewUrl={b.foto_url}
+                  onArchivo={(file) => actualizarFoto(b.id, file)}
+                />
+              ) : (
+                <div style={{ aspectRatio: '4/3', borderRadius: 14, overflow: 'hidden', background: 'var(--surface-2)', border: '1px solid var(--border)' }}>
+                  {b.foto_url && <img src={b.foto_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
+                </div>
+              )}
             </div>
 
-            {editandoId === b.id ? (
+            {esAdmin && editandoId === b.id ? (
               <div>
                 <div className="field" style={{ marginBottom: 8 }}>
                   <label>Nombre</label>
@@ -97,11 +105,13 @@ export default function Bodegas() {
             ) : (
               <div>
                 <div style={{ fontWeight: 600, marginBottom: 4 }}>{b.nombre}</div>
-                <div style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 12 }}>{b.descripcion || 'Sin descripción'}</div>
-                <div style={{ display: 'flex', gap: 8 }}>
-                  <button className="btn btn-outline" style={{ fontSize: 13 }} onClick={() => abrirEdicion(b)}>Editar</button>
-                  <button className="btn btn-danger" style={{ fontSize: 13 }} onClick={() => eliminarBodega(b)}>Eliminar</button>
-                </div>
+                <div style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: esAdmin ? 12 : 0 }}>{b.descripcion || 'Sin descripción'}</div>
+                {esAdmin && (
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <button className="btn btn-outline" style={{ fontSize: 13 }} onClick={() => abrirEdicion(b)}>Editar</button>
+                    <button className="btn btn-danger" style={{ fontSize: 13 }} onClick={() => eliminarBodega(b)}>Eliminar</button>
+                  </div>
+                )}
               </div>
             )}
           </div>
