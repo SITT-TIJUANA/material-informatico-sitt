@@ -17,7 +17,7 @@ const tabStyle = ({ isActive }) => ({
 
 export default function BottomNav() {
   const navigate = useNavigate();
-  const { esAdmin } = useAuth();
+  const { esAdmin, puedeEditar } = useAuth();
 
   return (
     <nav className="bottom-nav-mobile" style={{
@@ -50,7 +50,7 @@ export default function BottomNav() {
         </button>
       </div>
 
-      {esAdmin && (
+      {puedeEditar && (
         <NavLink to="/admin/bodegas" style={tabStyle}>
           {I.bodegas({ width: 21, height: 21 })}
           Bodega
