@@ -14,7 +14,7 @@ const ICONOS = {
 };
 
 export default function Sidebar() {
-  const { usuario, esAdmin } = useAuth();
+  const { usuario, esAdmin, puedeEditar } = useAuth();
   const [colapsado, setColapsado] = useState(false);
 
   const enlace = (icono, label, to, end) => (
@@ -85,7 +85,7 @@ export default function Sidebar() {
         {enlace('panel', 'Panel general', '/', true)}
         {enlace('inventario', 'Inventario', '/inventario')}
         {enlace('alta', 'Dar de alta', '/alta')}
-        {esAdmin && (
+        {(esAdmin || puedeEditar) && (
           <>
             {!colapsado && (
               <div style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '20px 0 8px 14px', fontWeight: 700 }}>
@@ -94,8 +94,8 @@ export default function Sidebar() {
             )}
             {colapsado && <div style={{ height: 1, background: 'var(--border)', margin: '14px 8px' }} />}
             {enlace('bodegas', 'Bodegas', '/admin/bodegas')}
-            {enlace('usuarios', 'Usuarios', '/admin/usuarios')}
-            {enlace('alertas', 'Alertas', '/admin/alertas')}
+            {esAdmin && enlace('usuarios', 'Usuarios', '/admin/usuarios')}
+            {esAdmin && enlace('alertas', 'Alertas', '/admin/alertas')}
           </>
         )}
         {!colapsado && <div style={{ height: 1, background: 'var(--border)', margin: '14px 8px' }} />}
